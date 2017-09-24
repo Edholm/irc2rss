@@ -35,7 +35,7 @@ class FeedFactory(private val releaseRepository: ReleaseRepository) {
     entry.title = this.title
     entry.publishedDate = Date.from(this.datePublished)
     entry.link = this.link
-    entry.comments = "https://www.torrentleech.org/torrent/${this.torrentId}#comments$"
+    entry.comments = "https://www.torrentleech.org/torrent/${this.torrentId}#comments"
     entry.uri = entry.link
 
     val desc = SyndContentImpl()
