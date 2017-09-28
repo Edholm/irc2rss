@@ -1,6 +1,6 @@
 package pub.edholm.irc2rss.domain
 
-class CategoryCoverter {
+class CategoryConverter {
   companion object {
     private val tlCategoryMap = mapOf(
       "Animation :: Anime" to Category.ANIME,

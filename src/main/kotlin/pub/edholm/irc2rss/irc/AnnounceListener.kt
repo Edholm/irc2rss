@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 import pub.edholm.irc2rss.Properties
 import pub.edholm.irc2rss.database.ReleaseRepository
 import pub.edholm.irc2rss.domain.Category
-import pub.edholm.irc2rss.domain.CategoryCoverter
+import pub.edholm.irc2rss.domain.CategoryConverter
 import pub.edholm.irc2rss.domain.Release
 
 @Component
@@ -36,7 +36,7 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
   private fun splitAnnouncement(announcement: String): AnnouncementDTO? {
     val groups = announceRegex.matchEntire(announcement)?.groupValues ?: return null
 
-    val category = CategoryCoverter.fromTorrentLeech(groups[1])
+    val category = CategoryConverter.fromTorrentLeech(groups[1])
     val title = groups[2].replace(" ", ".")
     val uploadedBy = groups[3]
     val torrentId = groups[5].toLong()
