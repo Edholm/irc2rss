@@ -7,4 +7,5 @@ import java.util.*
 
 @Repository
 interface ReleaseRepository : MongoRepository<Release, UUID> {
+  fun findFirstByOrderByDatePublishedDesc(): List<Release>
 }
