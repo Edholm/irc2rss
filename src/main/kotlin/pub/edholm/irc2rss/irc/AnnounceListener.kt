@@ -21,9 +21,10 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
   }
 
   override fun onMessage(event: MessageEvent) {
-    logger.debug("Received message: " + event.message)
-    val parts = splitAnnouncement(event.message) ?: return
-    logger.debug("Split parts: " + parts)
+    val msgWithoutColors = Colors.removeFormattingAndColors(event.message)
+    logger.debug("Received message: $msgWithoutColors")
+    val parts = splitAnnouncement(msgWithoutColors) ?: return
+    logger.debug("Title: ${parts.title} - ${parts.category}")
 
     val link = constructDownloadLink(parts)
     val release = Release(title = parts.title, category = parts.category, torrentId = parts.torrentId, link = link)
@@ -33,8 +34,7 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
   }
 
   private fun splitAnnouncement(announcement: String): AnnouncementDTO? {
-    val withoutColor = Colors.removeFormattingAndColors(announcement)
-    val groups = announceRegex.matchEntire(withoutColor)?.groupValues ?: return null
+    val groups = announceRegex.matchEntire(announcement)?.groupValues ?: return null
 
     val category = CategoryCoverter.fromTorrentLeech(groups[1])
     val title = groups[2].replace(" ", ".")
