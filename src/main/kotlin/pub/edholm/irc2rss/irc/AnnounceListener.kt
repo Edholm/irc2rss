@@ -1,5 +1,6 @@
 package pub.edholm.irc2rss.irc
 
+import org.pircbotx.Colors
 import org.pircbotx.hooks.ListenerAdapter
 import org.pircbotx.hooks.events.MessageEvent
 import org.springframework.stereotype.Component
@@ -25,7 +26,8 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
   }
 
   private fun splitAnnouncement(announcement: String): AnnouncementDTO? {
-    val groups = announceRegex.matchEntire(announcement)?.groupValues ?: return null
+    val withoutColor = Colors.removeFormattingAndColors(announcement)
+    val groups = announceRegex.matchEntire(withoutColor)?.groupValues ?: return null
 
     val category = CategoryCoverter.fromTorrentLeech(groups[1])
     val title = groups[2].replace(" ", ".")
