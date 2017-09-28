@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.scheduling.annotation.EnableScheduling
 import pub.edholm.irc2rss.irc.AnnounceListener
+import javax.net.SocketFactory
+import javax.net.ssl.SSLSocketFactory
 
 @SpringBootApplication
 @EnableMongoRepositories
@@ -16,27 +18,29 @@ import pub.edholm.irc2rss.irc.AnnounceListener
 class Application {
 
   @Bean
-  fun torrentleechIrcBot(announceListener: AnnounceListener): PircBotX {
+  fun torrentleechIrcBot(announceListener: AnnounceListener, properties: Properties): PircBotX {
+    val socketFactory = if (properties.torrentleech.ssl) SSLSocketFactory.getDefault() else SocketFactory.getDefault()
     val config = Configuration.Builder()
-      .setName("Edholm")
-      .setLogin("Edholm")
-      .setRealName("Edholm")
+      .setName(properties.torrentleech.nick)
+      .setLogin(properties.torrentleech.nick)
+      .setRealName(properties.torrentleech.nick)
       .setAutoNickChange(false)
       .setAutoReconnect(true)
       .setAutoReconnectDelay(5337)
       .setAutoReconnectAttempts(10)
-      .addAutoJoinChannel("#tlannounces")
-      .addServer("irc.torrentleech.org", 7011)
-      //.setSocketFactory(SSLSocketFactory.getDefault())
+      .addAutoJoinChannel(properties.torrentleech.autojoinChannel)
+      .addServer(properties.torrentleech.host, properties.torrentleech.port)
+      .setSocketFactory(socketFactory)
       .addListener(announceListener)
+      .setNickservPassword(properties.torrentleech.nickservPwd)
       .buildConfiguration()
+
     return PircBotX(config)
   }
 
   @Bean
   fun startBot(tlBot: PircBotX) = CommandLineRunner {
     tlBot.startBot()
-    // TODO: auth with nickserv
   }
 }
 

@@ -1,0 +1,24 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/irc2rss
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+logging:
+  level:
+    org.pircbotx: INFO
+
+irc2rss:
+  torrentleech:
+    host: ${tl_irc_server:irc.torrentleech.org}
+    port: ${tl_irc_port:7011}
+    nick: ${tl_nick}
+    nickserv-pwd: ${tl_nickserv_pwd}
+    rsskey: ${tl_rss_key}
+    autojoin-channel: ${tl_autojoin_channel:#tlannounces}
+    ssl: ${tl_ssl:false}

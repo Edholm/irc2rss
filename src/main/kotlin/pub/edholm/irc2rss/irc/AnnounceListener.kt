@@ -2,8 +2,8 @@ package pub.edholm.irc2rss.irc
 
 import org.pircbotx.hooks.ListenerAdapter
 import org.pircbotx.hooks.events.MessageEvent
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import pub.edholm.irc2rss.Properties
 import pub.edholm.irc2rss.database.ReleaseRepository
 import pub.edholm.irc2rss.domain.Category
 import pub.edholm.irc2rss.domain.CategoryCoverter
@@ -11,7 +11,7 @@ import pub.edholm.irc2rss.domain.Release
 
 @Component
 class AnnounceListener(private val releaseRepository: ReleaseRepository,
-                       @Value("\${irc2rss.torrentleech.rsskey}") private val rssKey: String) : ListenerAdapter() {
+                       private val properties: Properties) : ListenerAdapter() {
   companion object {
     val announceRegex = Regex("^New Torrent Announcement:\\s*<([^>]*)>\\s*Name:'(.*)' uploaded by '([^']*)'\\s*-\\s*https?\\:\\/\\/([^\\/]+\\/)torrent/(\\d+)")
   }
@@ -36,7 +36,7 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
   }
 
   private fun constructDownloadLink(announcement: AnnouncementDTO): String {
-    return "https://www.torrentleech.org/rss/download/${announcement.torrentId}/$rssKey/${announcement.title}.torrent"
+    return "https://www.torrentleech.org/rss/download/${announcement.torrentId}/${properties.torrentleech.rsskey}/${announcement.title}.torrent"
   }
 
   data class AnnouncementDTO(val title: String,
