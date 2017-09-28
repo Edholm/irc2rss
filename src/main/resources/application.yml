@@ -11,7 +11,8 @@ spring:
 
 logging:
   level:
-    org.pircbotx: INFO
+    org.pircbotx: WARN
+    pub.edholm.irc2rss.irc: DEBUG
 
 irc2rss:
   torrentleech:
