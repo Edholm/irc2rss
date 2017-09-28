@@ -17,6 +17,6 @@ class Properties {
     var nickservPwd: String? = null
     var autojoinChannel: String = ""
     var ssl: Boolean = false
-    var categoryFilter: List<Category> = listOf()
+    var categoryFilter: MutableSet<Category> = mutableSetOf()
   }
 }
