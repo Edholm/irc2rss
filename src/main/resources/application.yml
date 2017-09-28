@@ -1,3 +1,5 @@
+server:
+  port: ${SERVER_PORT:8080}
 spring:
   output:
     ansi:
@@ -23,3 +25,5 @@ irc2rss:
     rsskey: ${tl_rss_key}
     autojoin-channel: ${tl_autojoin_channel:#tlannounces}
     ssl: ${tl_ssl:false}
+    category-filter:
+      - TV_EPISODES_HD

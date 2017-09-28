@@ -2,6 +2,7 @@ package pub.edholm.irc2rss
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
+import pub.edholm.irc2rss.domain.Category
 
 @ConfigurationProperties("irc2rss")
 @Component
@@ -16,5 +17,6 @@ class Properties {
     var nickservPwd: String? = null
     var autojoinChannel: String = ""
     var ssl: Boolean = false
+    var categoryFilter: List<Category> = listOf()
   }
 }
