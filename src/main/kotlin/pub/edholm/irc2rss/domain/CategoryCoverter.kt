@@ -8,6 +8,7 @@ class CategoryCoverter {
       "Applications :: PC - ISO" to Category.APPLICATIONS_PC,
       "Books :: Comics" to Category.BOOKS_COMICS,
       "Games :: PC" to Category.GAMES_PC,
+      "Games :: PS4" to Category.GAMES_PS4,
       "Movies :: 4K" to Category.MOVIES_4K,
       "Movies :: Bluray" to Category.MOVIES_BLURAY,
       "Movies :: BlurayRip" to Category.MOVIES_BLURAY_RIP,
