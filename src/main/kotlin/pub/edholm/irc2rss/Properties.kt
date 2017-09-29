@@ -11,6 +11,7 @@ class Properties {
 
 
   class Torrentleech {
+    var enabled: Boolean = true
     var host: String = ""
     var port: Int = 0
     var rsskey: String? = null

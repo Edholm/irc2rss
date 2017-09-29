@@ -18,13 +18,14 @@ logging:
 
 irc2rss:
   torrentleech:
-    host: ${tl_irc_server:irc.torrentleech.org}
-    port: ${tl_irc_port:7011}
-    nick: ${tl_nick}
-    nickserv-pwd: ${tl_nickserv_pwd}
-    rsskey: ${tl_rss_key}
-    autojoin-channel: ${tl_autojoin_channel:#tlannounces}
-    ssl: ${tl_ssl:false}
+    enabled: ${TL_ENABLED:true}
+    host: ${TL_IRC_SERVER:irc.torrentleech.org}
+    port: ${TL_IRC_PORT:7011}
+    nick: ${TL_NICK}
+    nickserv-pwd: ${TL_NICKSERV_PWD}
+    rsskey: ${TL_RSS_KEY}
+    autojoin-channel: ${TL_AUTOJOIN_CHANNEL:#tlannounces}
+    ssl: ${TL_SSL:false}
   category:
     filter:
       - TV_EPISODES_HD
