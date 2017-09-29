@@ -12,4 +12,6 @@ interface ReleaseRepository : MongoRepository<Release, UUID> {
   fun findFirstByOrderByDatePublishedDesc(): List<Release>
 
   fun findByCategoryIn(categories: Collection<Category>, pageable: Pageable): List<Release>
+
+  fun findByCategory(category: Category): List<Release>
 }
