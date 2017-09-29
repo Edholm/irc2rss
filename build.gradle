@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlin_version = '1.1.50'
+        kotlin_version = '1.1.51'
         springBootVersion = '2.0.0.M4'
     }
 
@@ -10,7 +10,7 @@ buildscript {
         maven { url "https://repo.spring.io/milestone" }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
     }
@@ -31,11 +31,14 @@ repositories {
     maven { url "https://repo.spring.io/milestone" }
 }
 
+kotlin_version = '1.1.51'
+springBootVersion = '2.0.0.M4'
+
 dependencies {
     compile('com.rometools:rome:1.8.0') // RSS-feeds
     compile('org.pircbotx:pircbotx:2.1')
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}")
     compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlin_version}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
