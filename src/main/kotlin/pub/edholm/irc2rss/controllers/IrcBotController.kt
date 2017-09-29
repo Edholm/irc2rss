@@ -1,4 +1,4 @@
-package pub.edholm.irc2rss.irc
+package pub.edholm.irc2rss.controllers
 
 import org.pircbotx.PircBotX
 import org.springframework.http.MediaType

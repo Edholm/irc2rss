@@ -1,4 +1,4 @@
-package pub.edholm.irc2rss.filtering
+package pub.edholm.irc2rss.controllers
 
 import org.springframework.web.bind.annotation.*
 import pub.edholm.irc2rss.Properties
