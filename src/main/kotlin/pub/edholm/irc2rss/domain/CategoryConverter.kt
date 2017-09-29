@@ -11,6 +11,7 @@ class CategoryConverter {
       "Games :: PS4" to Category.GAMES_PS4,
       "Games :: Wii" to Category.GAMES_WII,
       "Movies :: 4K" to Category.MOVIES_4K,
+      "Movies :: Real 4K UltraHD HDR" to Category.MOVIES_REAL_4K_ULTRAHD_HDR,
       "Movies :: Bluray" to Category.MOVIES_BLURAY,
       "Movies :: BlurayRip" to Category.MOVIES_BLURAY_RIP,
       "Movies :: Documentaries" to Category.MOVIES_DOCUMENTARIES,
