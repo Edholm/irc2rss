@@ -24,16 +24,20 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
     val msgWithoutColors = Colors.removeFormattingAndColors(event.message)
     logger.debug("Received message: $msgWithoutColors")
     val parts = splitAnnouncement(msgWithoutColors) ?: return
-    logger.debug("Title: ${parts.title} - ${parts.category}")
+    logger.debug("Title: ${parts.title} - ${parts.parsedCategory}")
 
     val link = constructDownloadLink(parts)
-    val release = Release(title = parts.title, category = parts.category, torrentId = parts.torrentId, link = link)
+    val release = Release(title = parts.title,
+      category = parts.parsedCategory,
+      originalCategory = parts.category,
+      torrentId = parts.torrentId,
+      link = link)
 
     logger.debug("Parsed release: " + release)
     releaseRepository.save(release)
   }
 
-  private fun splitAnnouncement(announcement: String): AnnouncementDTO? {
+  private fun splitAnnouncement(announcement: String): Announcement? {
     val groups = announceRegex.matchEntire(announcement)?.groupValues ?: return null
 
     val category = CategoryConverter.fromTorrentLeech(groups[1])
@@ -41,15 +45,16 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
     val uploadedBy = groups[3]
     val torrentId = groups[5].toLong()
 
-    return AnnouncementDTO(title, category, uploadedBy, torrentId)
+    return Announcement(title, category, groups[1], uploadedBy, torrentId)
   }
 
-  private fun constructDownloadLink(announcement: AnnouncementDTO): String {
+  private fun constructDownloadLink(announcement: Announcement): String {
     return "https://www.torrentleech.org/rss/download/${announcement.torrentId}/${properties.torrentleech.rsskey}/${announcement.title}.torrent"
   }
 
-  data class AnnouncementDTO(val title: String,
-                             val category: Category,
-                             val uploadedBy: String,
-                             val torrentId: Long)
+  data class Announcement(val title: String,
+                          val parsedCategory: Category,
+                          val category: String,
+                          val uploadedBy: String,
+                          val torrentId: Long)
 }

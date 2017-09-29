@@ -10,6 +10,7 @@ data class Release(
   @Id val id: UUID = UUID.randomUUID(),
   val title: String = "<insert-title-here>",
   val category: Category = Category.UNKNOWN,
+  val originalCategory: String = "<missing>",
   val torrentId: Long = 0,
   val link: String = "http://",
   val datePublished: Instant = Instant.now()) {
