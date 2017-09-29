@@ -7,6 +7,7 @@ enum class Category {
   BOOKS_COMICS,
   GAMES_PC,
   GAMES_PS4,
+  GAMES_WII,
   MOVIES_4K,
   MOVIES_BLURAY,
   MOVIES_BLURAY_RIP,
