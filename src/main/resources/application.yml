@@ -14,7 +14,7 @@ spring:
 logging:
   level:
     org.pircbotx: WARN
-    pub.edholm.irc2rss.irc: DEBUG
+    pub.edholm.irc2rss: DEBUG
 
 irc2rss:
   torrentleech:
@@ -29,3 +29,7 @@ irc2rss:
   category:
     filter:
       - TV_EPISODES_HD
+  hook:
+    enabled: ${HOOK_ENABLED:true}
+    url: ${HOOK_URL:http://localhost:1234}
+    expected-return-code: ${HOOK_EXPECTED_RETURN_CODE:200}

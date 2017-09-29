@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class Properties {
   val torrentleech = Torrentleech()
   val category = Category()
-
+  val hook = Hook()
 
   class Torrentleech {
     var enabled: Boolean = true
@@ -23,5 +23,11 @@ class Properties {
 
   class Category {
     var filter: MutableSet<pub.edholm.irc2rss.domain.Category> = mutableSetOf()
+  }
+
+  class Hook {
+    var enabled: Boolean = true
+    var url: String = ""
+    var expectedReturnCode: Int = 200
   }
 }

@@ -7,7 +7,9 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
+import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
+import org.springframework.web.client.RestTemplate
 import pub.edholm.irc2rss.irc.AnnounceListener
 import javax.net.SocketFactory
 import javax.net.ssl.SSLSocketFactory
@@ -15,7 +17,11 @@ import javax.net.ssl.SSLSocketFactory
 @SpringBootApplication
 @EnableMongoRepositories
 @EnableScheduling
+@EnableAsync
 class Application {
+
+  @Bean
+  fun getRestTemplate() = RestTemplate()
 
   @Bean
   fun torrentleechIrcBot(announceListener: AnnounceListener, properties: Properties): PircBotX {

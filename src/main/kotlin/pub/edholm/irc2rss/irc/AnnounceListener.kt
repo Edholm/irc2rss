@@ -6,6 +6,7 @@ import org.pircbotx.hooks.events.MessageEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import pub.edholm.irc2rss.HookManager
 import pub.edholm.irc2rss.Properties
 import pub.edholm.irc2rss.database.ReleaseRepository
 import pub.edholm.irc2rss.domain.Category
@@ -14,6 +15,7 @@ import pub.edholm.irc2rss.domain.Release
 
 @Component
 class AnnounceListener(private val releaseRepository: ReleaseRepository,
+                       private val hookManager: HookManager,
                        private val properties: Properties,
                        private val logger: Logger = LoggerFactory.getLogger(AnnounceListener::class.java)) : ListenerAdapter() {
   companion object {
@@ -35,6 +37,7 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
 
     logger.debug("Parsed release: " + release)
     releaseRepository.save(release)
+    hookManager.executeHook()
   }
 
   private fun splitAnnouncement(announcement: String): Announcement? {
