@@ -45,9 +45,9 @@ class Application {
   }
 
   @Bean
-  fun startBot(tlBot: PircBotX, properties: Properties) = CommandLineRunner {
+  fun startBot(tlBot: TLBot, properties: Properties) = CommandLineRunner {
     if (properties.torrentleech.enabled) {
-      tlBot.startBot()
+      tlBot.start()
     }
   }
 }
