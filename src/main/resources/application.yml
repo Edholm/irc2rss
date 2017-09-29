@@ -31,5 +31,6 @@ irc2rss:
       - TV_EPISODES_HD
   hook:
     enabled: ${HOOK_ENABLED:true}
-    url: ${HOOK_URL:http://localhost:1234}
+    url: ${HOOK_URL:http://localhost:1234/sb.forcesearch}
     expected-return-code: ${HOOK_EXPECTED_RETURN_CODE:200}
+    only-hook-on-filtered: ${HOOK_ONLY_ON_FILTERED:true}

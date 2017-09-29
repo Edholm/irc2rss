@@ -36,8 +36,8 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
       link = link)
 
     logger.debug("Parsed release: " + release)
-    releaseRepository.save(release)
-    hookManager.executeHook()
+    val savedRelease = releaseRepository.save(release)
+    hookManager.executeHook(savedRelease)
   }
 
   private fun splitAnnouncement(announcement: String): Announcement? {

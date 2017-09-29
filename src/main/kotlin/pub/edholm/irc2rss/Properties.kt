@@ -29,5 +29,6 @@ class Properties {
     var enabled: Boolean = true
     var url: String = ""
     var expectedReturnCode: Int = 200
+    var onlyHookOnFiltered: Boolean = true
   }
 }
