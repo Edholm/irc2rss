@@ -1,5 +1,6 @@
 package pub.edholm.irc2rss.controllers
 
+import org.springframework.data.domain.Sort
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,7 +17,7 @@ import java.time.ZoneId
 class ReleaseController(private val releaseRepository: ReleaseRepository) {
 
   @GetMapping
-  fun all(): List<Release> = releaseRepository.findAll()
+  fun all(): List<Release> = releaseRepository.findAll(Sort.by(Sort.Direction.DESC, "datePublished", "title"))
 
   @GetMapping("/{category}")
   fun getSpecificCategory(@PathVariable category: Category): List<Release> = releaseRepository.findByCategory(category)
