@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 import pub.edholm.irc2rss.Properties
 import pub.edholm.irc2rss.database.ReleaseRepository
+import pub.edholm.irc2rss.domain.Category
 import pub.edholm.irc2rss.domain.Release
 import java.util.*
 
@@ -25,19 +26,16 @@ class FeedFactory(private val releaseRepository: ReleaseRepository,
     feed.link = "https://www.torrentleech.org/"
 
     feed.entries = releaseRepository
-      .findAll(PageRequest.of(0, FEED_SIZE, Sort.by(Sort.Direction.DESC, "datePublished")))
-      .filter(this::isReleaseCorrectCategory)
+      .findByCategoryIn(getCategoriesToShow(), PageRequest.of(0, FEED_SIZE, Sort.by(Sort.Direction.DESC, "datePublished")))
       .toList()
       .map { it.toSyndEntry() }
 
     return feed
   }
 
-  private fun isReleaseCorrectCategory(release: Release): Boolean {
-    if (properties.torrentleech.categoryFilter.isEmpty()) {
-      return true
-    }
-    return properties.torrentleech.categoryFilter.contains(release.category)
+  fun getCategoriesToShow(): Collection<Category> {
+    return if (properties.category.filter.isEmpty()) EnumSet.allOf(Category::class.java)
+    else properties.category.filter
   }
 
   private fun Release.toSyndEntry(): SyndEntry {

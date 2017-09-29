@@ -8,17 +8,17 @@ import pub.edholm.irc2rss.domain.Category
 @RequestMapping("/filter")
 class FilterController(private val properties: Properties) {
   @GetMapping
-  fun listCategoryFilters(): Set<Category> = properties.torrentleech.categoryFilter
+  fun listCategoryFilters(): Set<Category> = properties.category.filter
 
   @PutMapping
   fun addNewCategoryFilter(@RequestBody categories: List<Category>): Set<Category> {
-    properties.torrentleech.categoryFilter.addAll(categories)
-    return properties.torrentleech.categoryFilter.toSet()
+    properties.category.filter.addAll(categories)
+    return listCategoryFilters()
   }
 
   @DeleteMapping
   fun deleteCategory(@RequestBody categoriesToDelete: List<Category>): Set<Category> {
-    properties.torrentleech.categoryFilter.removeAll(categoriesToDelete)
-    return properties.torrentleech.categoryFilter.toSet()
+    properties.category.filter.removeAll(categoriesToDelete)
+    return listCategoryFilters()
   }
 }

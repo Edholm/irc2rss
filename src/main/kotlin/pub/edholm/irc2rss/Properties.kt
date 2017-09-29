@@ -2,12 +2,13 @@ package pub.edholm.irc2rss
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
-import pub.edholm.irc2rss.domain.Category
 
 @ConfigurationProperties("irc2rss")
 @Component
 class Properties {
-  var torrentleech = Torrentleech()
+  val torrentleech = Torrentleech()
+  val category = Category()
+
 
   class Torrentleech {
     var host: String = ""
@@ -17,6 +18,9 @@ class Properties {
     var nickservPwd: String? = null
     var autojoinChannel: String = ""
     var ssl: Boolean = false
-    var categoryFilter: MutableSet<Category> = mutableSetOf()
+  }
+
+  class Category {
+    var filter: MutableSet<pub.edholm.irc2rss.domain.Category> = mutableSetOf()
   }
 }
