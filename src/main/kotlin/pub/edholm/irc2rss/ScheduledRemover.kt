@@ -27,7 +27,7 @@ class ScheduledRemover(private val releaseRepository: ReleaseRepository) {
       }
 
     log.info("Removing ${releasesTooOld.size} releases that are older than 72h")
-    log.debug("Removing the following releases: $releasesTooOld")
+    log.debug("Removing the following releases: ${releasesTooOld.map { it.title }}")
     releaseRepository.deleteAll(releasesTooOld)
   }
 }
