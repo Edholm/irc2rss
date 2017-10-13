@@ -28,7 +28,7 @@ class HookManager(private val properties: Properties,
       logger.warn("Hook failed. Expected ${hook.expectedReturnCode}, got: ${response.statusCode}")
       return
     }
-    logger.debug("Hook successful: ${response.body}")
+    logger.debug("Hook successful")
   }
 
   private fun hookShouldExecute(category: Category): Boolean {
