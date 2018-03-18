@@ -1,5 +1,6 @@
 package pub.edholm.irc2rss.irc
 
+import io.micrometer.core.instrument.MeterRegistry
 import org.pircbotx.Colors
 import org.pircbotx.hooks.ListenerAdapter
 import org.pircbotx.hooks.events.MessageEvent
@@ -18,8 +19,11 @@ class AnnounceListener(
   private val releaseRepository: ReleaseRepository,
   private val hookManager: HookManager,
   private val properties: Properties,
-  private val logger: Logger = LoggerFactory.getLogger(AnnounceListener::class.java)
+  private val meterRegistry: MeterRegistry
 ) : ListenerAdapter() {
+
+  private val logger: Logger = LoggerFactory.getLogger(AnnounceListener::class.java)
+
   companion object {
     val announceRegex =
       Regex("^New Torrent Announcement:\\s*<([^>]*)>\\s*Name:'(.*)' uploaded by '([^']*)'\\s*-\\s*https?\\:\\/\\/([^\\/]+\\/)torrent/(\\d+)")
@@ -40,7 +44,9 @@ class AnnounceListener(
       link = link
     )
 
-    logger.debug("Parsed release: " + release)
+    logger.debug("Parsed release: $release")
+    meterRegistry.counter("irc2rss.releases.added", "category", release.category.name).increment()
+
     val savedRelease = releaseRepository.save(release)
     hookManager.executeHook(savedRelease)
   }

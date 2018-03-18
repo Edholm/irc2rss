@@ -1,5 +1,6 @@
 package pub.edholm.irc2rss
 
+import io.micrometer.core.instrument.MeterRegistry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
@@ -9,7 +10,10 @@ import java.time.Duration
 import java.time.Instant
 
 @Component
-class ScheduledRemover(private val releaseRepository: ReleaseRepository) {
+class ScheduledRemover(
+  private val releaseRepository: ReleaseRepository,
+  private val meterRegistry: MeterRegistry
+) {
   companion object {
     const val MAXIMUM_AGE_IN_SECONDS = 72 * 60 * 60L
   }
@@ -28,6 +32,8 @@ class ScheduledRemover(private val releaseRepository: ReleaseRepository) {
 
     log.info("Removing ${releasesTooOld.size} releases that are older than 72h")
     log.debug("Removing the following releases: ${releasesTooOld.map { it.title }}")
+
+    meterRegistry.gauge("irc2rss.releases.removed", releasesTooOld, { it.count().toDouble() })
     releaseRepository.deleteAll(releasesTooOld)
   }
 }
