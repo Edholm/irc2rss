@@ -1,13 +1,11 @@
 buildscript {
     ext {
-        kotlin_version = '1.1.51'
-        springBootVersion = '2.0.0.M4'
+        kotlin_version = '1.2.30'
+        springBootVersion = '2.0.0.RELEASE'
     }
 
     repositories {
         mavenCentral()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
@@ -27,19 +25,18 @@ apply plugin: 'io.spring.dependency-management'
 
 repositories {
     mavenCentral()
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url "https://repo.spring.io/milestone" }
 }
 
-kotlin_version = '1.1.51'
-springBootVersion = '2.0.0.M4'
+kotlin_version = '1.2.30'
+springBootVersion = '2.0.0.RELEASE'
 
 dependencies {
-    compile('com.rometools:rome:1.8.0') // RSS-feeds
+    compile('com.rometools:rome:1.9.0') // RSS-feeds
     compile('org.pircbotx:pircbotx:2.1')
+    runtime('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4')
     compile("org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}")
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlin_version}")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')

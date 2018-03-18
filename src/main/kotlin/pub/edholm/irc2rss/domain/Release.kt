@@ -13,5 +13,6 @@ data class Release(
   val originalCategory: String = "<missing>",
   val torrentId: Long = 0,
   val link: String = "http://",
-  val datePublished: Instant = Instant.now()) {
+  val datePublished: Instant = Instant.now()
+) {
 }

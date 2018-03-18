@@ -9,9 +9,11 @@ import pub.edholm.irc2rss.domain.Category
 import pub.edholm.irc2rss.domain.Release
 
 @Component
-class HookManager(private val properties: Properties,
-                  private val restTemplate: RestTemplate,
-                  private val logger: Logger = LoggerFactory.getLogger(HookManager::class.java)) {
+class HookManager(
+  private val properties: Properties,
+  private val restTemplate: RestTemplate,
+  private val logger: Logger = LoggerFactory.getLogger(HookManager::class.java)
+) {
 
   @Async
   fun executeHook(release: Release) {

@@ -11,8 +11,10 @@ import pub.edholm.irc2rss.domain.Release
 import java.util.*
 
 @Component
-class FeedFactory(private val releaseRepository: ReleaseRepository,
-                  private val properties: Properties) {
+class FeedFactory(
+  private val releaseRepository: ReleaseRepository,
+  private val properties: Properties
+) {
   companion object {
     const val FEED_SIZE = 15
   }
@@ -26,7 +28,10 @@ class FeedFactory(private val releaseRepository: ReleaseRepository,
     feed.link = "https://www.torrentleech.org/"
 
     feed.entries = releaseRepository
-      .findByCategoryIn(getCategoriesToShow(), PageRequest.of(0, FEED_SIZE, Sort.by(Sort.Direction.DESC, "datePublished")))
+      .findByCategoryIn(
+        getCategoriesToShow(),
+        PageRequest.of(0, FEED_SIZE, Sort.by(Sort.Direction.DESC, "datePublished"))
+      )
       .toList()
       .map { it.toSyndEntry() }
 

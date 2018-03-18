@@ -18,7 +18,8 @@ class IrcBotController(private val tlBot: PircBotX) {
       "hostname" to tlBot.serverHostname,
       "port" to tlBot.serverPort,
       "connected" to tlBot.isConnected,
-      "isNickservIdentified" to tlBot.isNickservIdentified)
+      "isNickservIdentified" to tlBot.isNickservIdentified
+    )
   }
 
   @GetMapping("/torrentleech/start")
@@ -28,7 +29,8 @@ class IrcBotController(private val tlBot: PircBotX) {
     }
     return mapOf(
       "connected" to tlBot.isConnected,
-      "isNickServIdentified" to tlBot.isNickservIdentified)
+      "isNickServIdentified" to tlBot.isNickservIdentified
+    )
   }
 
   @GetMapping("/torrentleech/stopReconnect")
@@ -36,7 +38,8 @@ class IrcBotController(private val tlBot: PircBotX) {
     tlBot.stopBotReconnect()
     return mapOf(
       "connected" to tlBot.isConnected,
-      "isNickServIdentified" to tlBot.isNickservIdentified)
+      "isNickServIdentified" to tlBot.isNickservIdentified
+    )
   }
 
   @GetMapping("/torrentleech/disconnect")
@@ -46,7 +49,8 @@ class IrcBotController(private val tlBot: PircBotX) {
     }
     return mapOf(
       "connected" to tlBot.isConnected,
-      "isNickServIdentified" to tlBot.isNickservIdentified)
+      "isNickServIdentified" to tlBot.isNickservIdentified
+    )
   }
 
 }

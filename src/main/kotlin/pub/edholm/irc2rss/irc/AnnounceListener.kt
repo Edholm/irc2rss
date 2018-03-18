@@ -14,12 +14,15 @@ import pub.edholm.irc2rss.domain.CategoryConverter
 import pub.edholm.irc2rss.domain.Release
 
 @Component
-class AnnounceListener(private val releaseRepository: ReleaseRepository,
-                       private val hookManager: HookManager,
-                       private val properties: Properties,
-                       private val logger: Logger = LoggerFactory.getLogger(AnnounceListener::class.java)) : ListenerAdapter() {
+class AnnounceListener(
+  private val releaseRepository: ReleaseRepository,
+  private val hookManager: HookManager,
+  private val properties: Properties,
+  private val logger: Logger = LoggerFactory.getLogger(AnnounceListener::class.java)
+) : ListenerAdapter() {
   companion object {
-    val announceRegex = Regex("^New Torrent Announcement:\\s*<([^>]*)>\\s*Name:'(.*)' uploaded by '([^']*)'\\s*-\\s*https?\\:\\/\\/([^\\/]+\\/)torrent/(\\d+)")
+    val announceRegex =
+      Regex("^New Torrent Announcement:\\s*<([^>]*)>\\s*Name:'(.*)' uploaded by '([^']*)'\\s*-\\s*https?\\:\\/\\/([^\\/]+\\/)torrent/(\\d+)")
   }
 
   override fun onMessage(event: MessageEvent) {
@@ -29,11 +32,13 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
     logger.debug("Title: ${parts.title} - ${parts.parsedCategory}")
 
     val link = constructDownloadLink(parts)
-    val release = Release(title = parts.title,
+    val release = Release(
+      title = parts.title,
       category = parts.parsedCategory,
       originalCategory = parts.category,
       torrentId = parts.torrentId,
-      link = link)
+      link = link
+    )
 
     logger.debug("Parsed release: " + release)
     val savedRelease = releaseRepository.save(release)
@@ -55,9 +60,11 @@ class AnnounceListener(private val releaseRepository: ReleaseRepository,
     return "https://www.torrentleech.org/rss/download/${announcement.torrentId}/${properties.torrentleech.rsskey}/${announcement.title}.torrent"
   }
 
-  data class Announcement(val title: String,
-                          val parsedCategory: Category,
-                          val category: String,
-                          val uploadedBy: String,
-                          val torrentId: Long)
+  data class Announcement(
+    val title: String,
+    val parsedCategory: Category,
+    val category: String,
+    val uploadedBy: String,
+    val torrentId: Long
+  )
 }
