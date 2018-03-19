@@ -1,8 +1,6 @@
 package pub.edholm.irc2rss
 
-import io.micrometer.core.instrument.Meter
 import io.micrometer.core.instrument.MeterRegistry
-import io.micrometer.core.instrument.config.MeterFilter
 import org.pircbotx.Configuration
 import org.pircbotx.PircBotX
 import org.springframework.boot.CommandLineRunner
@@ -52,29 +50,19 @@ class Application {
   }
 
   @Bean
-  fun startBot(tlBot: TLBot, properties: Properties) = CommandLineRunner {
-    if (properties.torrentleech.enabled) {
-      tlBot.start()
+  fun startBot(tlBot: TLBot, properties: Properties, meterRegistry: MeterRegistry, tlBotMeterBinder: TLBotMeterBinder) =
+    CommandLineRunner {
+      tlBotMeterBinder.bindTo(meterRegistry)
+      if (properties.torrentleech.enabled) {
+        tlBot.start()
+      }
     }
-  }
 
   @Bean
   fun commonTags(): MeterRegistryCustomizer<MeterRegistry> {
     val appEnv = System.getenv("APP_ENV") ?: "devel"
     return MeterRegistryCustomizer {
       it.config().commonTags("app", "irc2rss", "env", appEnv)
-    }
-  }
-
-  @Bean
-  fun appendPrefixToMetrics(): MeterFilter {
-    return object : MeterFilter {
-      override fun map(id: Meter.Id): Meter.Id {
-        if (id.name.startsWith("torrentleech")) {
-          return id.withName("irc2rss.${id.name}")
-        }
-        return id
-      }
     }
   }
 }
