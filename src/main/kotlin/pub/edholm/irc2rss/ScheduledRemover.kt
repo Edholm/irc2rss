@@ -33,7 +33,7 @@ class ScheduledRemover(
     log.info("Removing ${releasesTooOld.size} releases that are older than 72h")
     log.debug("Removing the following releases: ${releasesTooOld.map { it.title }}")
 
-    meterRegistry.gauge("irc2rss.releases.removed", releasesTooOld, { it.count().toDouble() })
+    meterRegistry.counter("irc2rss.releases.removed").increment(releasesTooOld.count().toDouble())
     releaseRepository.deleteAll(releasesTooOld)
   }
 }
