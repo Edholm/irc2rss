@@ -31,10 +31,10 @@ private fun Boolean.toDouble(): Double = if (this) 1.0 else 0.0
 @Component
 class TLBotMeterBinder(private val tlBot: TLBot, private val properties: Properties) : MeterBinder {
   override fun bindTo(registry: MeterRegistry) {
-    registry.gauge("torrentleech.connected", tlBot, { it.isConnected().toDouble() })
-    registry.gauge("torrentleech.identified", tlBot, { it.isIdentified().toDouble() })
+    registry.gauge("irc2rss.torrentleech.connected", tlBot, { it.isConnected().toDouble() })
+    registry.gauge("irc2rss.torrentleech.identified", tlBot, { it.isIdentified().toDouble() })
     registry.gauge(
-      "torrentleech.joined_default_channel",
+      "irc2rss.torrentleech.joined_default_channel",
       listOf(Tag.of("channel", properties.torrentleech.autojoinChannel)),
       tlBot,
       { it.isInDefaultChannel().toDouble() }
