@@ -30,5 +30,6 @@ enum class Category {
   TV_EPISODES,
   TV_EPISODES_HD,
   TV_FOREIGN,
+  EDUCATION,
   UNKNOWN
 }

@@ -30,7 +30,8 @@ class CategoryConverter {
       "TV :: BoxSets" to Category.TV_BOXSETS,
       "TV :: Episodes" to Category.TV_EPISODES,
       "TV :: Episodes HD" to Category.TV_EPISODES_HD,
-      "TV :: Foreign" to Category.TV_FOREIGN
+      "TV :: Foreign" to Category.TV_FOREIGN,
+      "Education :: Education" to Category.EDUCATION
     )
 
     fun fromTorrentLeech(tlCategory: String) = tlCategoryMap[tlCategory] ?: Category.UNKNOWN
