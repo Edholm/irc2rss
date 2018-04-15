@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        kotlin_version = '1.2.30'
-        springBootVersion = '2.0.0.RELEASE'
+        kotlin_version = '1.2.31'
+        springBootVersion = '2.0.1.RELEASE'
     }
 
     repositories {
@@ -28,8 +28,8 @@ repositories {
     mavenCentral()
 }
 
-kotlin_version = '1.2.30'
-springBootVersion = '2.0.0.RELEASE'
+kotlin_version = '1.2.31'
+springBootVersion = '2.0.1.RELEASE'
 
 dependencies {
     compile('com.rometools:rome:1.9.0') // RSS-feeds
@@ -42,7 +42,7 @@ dependencies {
 
     /* Metrics related */
     compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
-    compile("io.micrometer:micrometer-registry-prometheus:1.0.2")
+    compile("io.micrometer:micrometer-registry-prometheus:1.0.3")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
