@@ -19,7 +19,7 @@ class FeedFactory(
     const val FEED_SIZE = 15
   }
 
-  fun tlFeed(): SyndFeed {
+  fun tlFeed(categories: Collection<Category> = getCategoriesToShow(), size: Int = FEED_SIZE): SyndFeed {
 
     val feed = SyndFeedImpl()
     feed.feedType = "rss_2.0"
@@ -29,10 +29,9 @@ class FeedFactory(
 
     feed.entries = releaseRepository
       .findByCategoryIn(
-        getCategoriesToShow(),
-        PageRequest.of(0, FEED_SIZE, Sort.by(Sort.Direction.DESC, "datePublished"))
+        categories,
+        PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "datePublished"))
       )
-      .toList()
       .map { it.toSyndEntry() }
 
     return feed
