@@ -13,11 +13,11 @@ import pub.edholm.irc2rss.rss.FeedFactory
 @RequestMapping("/rss")
 class RssController(private val feedFactory: FeedFactory) {
   @GetMapping(value = ["/torrentleech"], produces = [(MediaType.APPLICATION_RSS_XML_VALUE)])
-  fun torrentleech(@RequestParam categories: String?): String {
+  fun torrentleech(@RequestParam categories: String?, @RequestParam(defaultValue = "15", required = false) size: Int = 15): String {
     return if (categories == null) {
-      SyndFeedOutput().outputString(feedFactory.tlFeed())
+      SyndFeedOutput().outputString(feedFactory.tlFeed(size = size))
     } else {
-      SyndFeedOutput().outputString(feedFactory.tlFeed(convertCommaCategories(categories)))
+      SyndFeedOutput().outputString(feedFactory.tlFeed(convertCommaCategories(categories), size = size))
     }
   }
 
