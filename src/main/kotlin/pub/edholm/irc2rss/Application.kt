@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.web.client.RestTemplate
 import pub.edholm.irc2rss.irc.AnnounceListener
+import java.time.Duration
 import javax.net.SocketFactory
 import javax.net.ssl.SSLSocketFactory
 
@@ -25,7 +26,7 @@ class Application {
 
   @Bean
   fun getRestTemplate(): RestTemplate = RestTemplateBuilder()
-    .setConnectTimeout(10000)
+    .setConnectTimeout(Duration.ofSeconds(10))
     .build()
 
   @Bean

@@ -3,6 +3,7 @@ package pub.edholm.irc2rss
 import io.micrometer.core.instrument.MeterRegistry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
@@ -19,16 +20,17 @@ class HookManager(
   private val logger: Logger = LoggerFactory.getLogger(HookManager::class.java)
 
   @Async
-  fun executeHook(release: Release) {
+  @EventListener
+  fun executeHook(event: AnnounceEvent) {
     val hook = properties.hook
-    if (!hookShouldExecute(release.category)) return
+    if (!hookShouldExecute(event.release.category)) return
     if (hook.url.isBlank()) {
       logger.warn("Hook enabled, but URL is blank")
       return
     }
 
     logger.debug("Executing hook on ${hook.url} …")
-    val response = restTemplate.getForEntity(hook.url, String::class.java)
+    val response = restTemplate.postForEntity(hook.url, "{\"name\": \"RssSync\"}", String::class.java)
     meterRegistry.counter("irc2rss.hook.executed", "code", response.statusCode.toString()).increment()
 
     if (response.statusCodeValue != hook.expectedReturnCode) {
@@ -49,3 +51,5 @@ class HookManager(
     return filters.contains(category)
   }
 }
+
+data class AnnounceEvent(val release: Release)

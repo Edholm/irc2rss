@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/irc", produces = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE))
+@RequestMapping("/irc", produces = [MediaType.APPLICATION_JSON_VALUE])
 class IrcBotController(private val tlBot: PircBotX) {
 
   @GetMapping("/torrentleech")
