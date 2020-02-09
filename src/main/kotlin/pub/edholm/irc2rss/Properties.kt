@@ -1,34 +1,35 @@
 package pub.edholm.irc2rss
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.stereotype.Component
+import org.springframework.boot.context.properties.ConstructorBinding
 
+@ConstructorBinding
 @ConfigurationProperties("irc2rss")
-@Component
-class Properties {
-  val torrentleech = Torrentleech()
-  val category = Category()
-  val hook = Hook()
+data class Properties(
+  val torrentleech: Torrentleech,
+  val category: Category,
+  val hook: Hook
+) {
+  data class Torrentleech(
+    val enabled: Boolean,
+    val host: String,
+    val port: Int,
+    val rsskey: String?,
+    val nick: String,
+    val nickservPwd: String?,
+    val autojoinChannel: String,
+    val ssl: Boolean
+  )
 
-  class Torrentleech {
-    var enabled: Boolean = true
-    var host: String = ""
-    var port: Int = 0
-    var rsskey: String? = null
-    var nick: String = ""
-    var nickservPwd: String? = null
-    var autojoinChannel: String = ""
-    var ssl: Boolean = false
-  }
+  data class Category(
+    val maxSize: Int,
+    val filter: MutableSet<pub.edholm.irc2rss.domain.Category>
+  )
 
-  class Category {
-    var filter: MutableSet<pub.edholm.irc2rss.domain.Category> = mutableSetOf()
-  }
-
-  class Hook {
-    var enabled: Boolean = true
-    var url: String = ""
-    var expectedReturnCode: Int = 200
-    var onlyHookOnFiltered: Boolean = true
-  }
+  data class Hook(
+    var enabled: Boolean,
+    var url: String,
+    var expectedReturnCode: Int,
+    var onlyHookOnFiltered: Boolean
+  )
 }

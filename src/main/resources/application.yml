@@ -43,6 +43,7 @@ irc2rss:
     autojoin-channel: ${TL_AUTOJOIN_CHANNEL:#tlannounces}
     ssl: ${TL_SSL:false}
   category:
+    max-size: ${CATEGORY_MAX_SIZE:100}
     filter:
       - TV_EPISODES_HD
   hook:

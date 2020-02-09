@@ -9,17 +9,15 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
 import pub.edholm.irc2rss.AnnounceEvent
-import pub.edholm.irc2rss.HookManager
 import pub.edholm.irc2rss.Properties
-import pub.edholm.irc2rss.database.ReleaseRepository
 import pub.edholm.irc2rss.domain.Category
 import pub.edholm.irc2rss.domain.CategoryConverter
 import pub.edholm.irc2rss.domain.Release
-import java.util.*
+import pub.edholm.irc2rss.services.ReleaseService
 
 @Component
 class AnnounceListener(
-  private val releaseRepository: ReleaseRepository,
+  private val releaseService: ReleaseService,
   private val properties: Properties,
   private val meterRegistry: MeterRegistry,
   private val eventPublisher: ApplicationEventPublisher
@@ -40,18 +38,18 @@ class AnnounceListener(
 
     val link = constructDownloadLink(parts)
     val release = Release(
+      id = parts.torrentId,
       title = parts.title,
       category = parts.parsedCategory,
       originalCategory = parts.category,
-      torrentId = parts.torrentId,
       link = link
     )
 
     logger.debug("Parsed release: $release")
     meterRegistry.counter("irc2rss.releases.added", "category", release.category.name).increment()
 
-    val savedRelease = releaseRepository.save(release)
-    eventPublisher.publishEvent(AnnounceEvent(savedRelease))
+    releaseService.add(release)
+    eventPublisher.publishEvent(AnnounceEvent(release))
   }
 
   private fun splitAnnouncement(announcement: String): Announcement? {

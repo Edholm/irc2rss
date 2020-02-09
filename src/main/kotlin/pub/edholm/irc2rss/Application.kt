@@ -1,15 +1,14 @@
 package pub.edholm.irc2rss
 
 import io.micrometer.core.instrument.MeterRegistry
-import org.pircbotx.Configuration
 import org.pircbotx.PircBotX
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.web.client.RestTemplate
@@ -19,7 +18,7 @@ import javax.net.SocketFactory
 import javax.net.ssl.SSLSocketFactory
 
 @SpringBootApplication
-@EnableMongoRepositories
+@ConfigurationPropertiesScan("pub.edholm.irc2rss")
 @EnableScheduling
 @EnableAsync
 class Application {
@@ -32,7 +31,7 @@ class Application {
   @Bean
   fun torrentleechIrcBot(announceListener: AnnounceListener, properties: Properties): PircBotX {
     val socketFactory = if (properties.torrentleech.ssl) SSLSocketFactory.getDefault() else SocketFactory.getDefault()
-    val config = Configuration.Builder()
+    val config = org.pircbotx.Configuration.Builder()
       .setName(properties.torrentleech.nick)
       .setLogin(properties.torrentleech.nick)
       .setRealName(properties.torrentleech.nick)

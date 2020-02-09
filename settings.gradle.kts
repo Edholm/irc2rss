@@ -7,6 +7,7 @@ pluginManagement {
 
   plugins {
     kotlin("jvm") version kotlinVersion
+    kotlin("kapt") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
     id("org.springframework.boot") version springBootVersion
     id("com.github.ben-manes.versions") version versionsVersion

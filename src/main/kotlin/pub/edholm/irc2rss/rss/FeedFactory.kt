@@ -1,18 +1,20 @@
 package pub.edholm.irc2rss.rss
 
-import com.rometools.rome.feed.synd.*
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
+import com.rometools.rome.feed.synd.SyndContentImpl
+import com.rometools.rome.feed.synd.SyndEntry
+import com.rometools.rome.feed.synd.SyndEntryImpl
+import com.rometools.rome.feed.synd.SyndFeed
+import com.rometools.rome.feed.synd.SyndFeedImpl
 import org.springframework.stereotype.Component
 import pub.edholm.irc2rss.Properties
-import pub.edholm.irc2rss.database.ReleaseRepository
 import pub.edholm.irc2rss.domain.Category
 import pub.edholm.irc2rss.domain.Release
+import pub.edholm.irc2rss.services.ReleaseService
 import java.util.*
 
 @Component
 class FeedFactory(
-  private val releaseRepository: ReleaseRepository,
+  private val releaseService: ReleaseService,
   private val properties: Properties
 ) {
   companion object {
@@ -27,11 +29,7 @@ class FeedFactory(
     feed.description = "Auto converted RSS from IRC"
     feed.link = "https://www.torrentleech.org/"
 
-    feed.entries = releaseRepository
-      .findByCategoryIn(
-        categories,
-        PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "datePublished"))
-      )
+    feed.entries = releaseService.getCategories(categories)
       .map { it.toSyndEntry() }
 
     return feed
@@ -47,7 +45,7 @@ class FeedFactory(
     entry.title = this.title
     entry.publishedDate = Date.from(this.datePublished)
     entry.link = this.link
-    entry.comments = "https://www.torrentleech.org/torrent/${this.torrentId}#comments"
+    entry.comments = "https://www.torrentleech.org/torrent/${this.id}#comments"
     entry.uri = entry.link
 
     val desc = SyndContentImpl()
