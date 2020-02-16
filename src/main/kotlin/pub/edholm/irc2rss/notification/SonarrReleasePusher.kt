@@ -42,7 +42,7 @@ class SonarrNotifier(
       return
     }
 
-    logger.debug("Pushing ${event.release.title} to ${sonarr.url}")
+    logger.debug("Pushing ${event.release.title} to ${sonarr.appName} (${sonarr.url})")
 
     val releasePush = event.let {
       ReleasePush(
@@ -76,7 +76,12 @@ class SonarrNotifier(
       "rejected",
       body.rejected.toString()
     ).increment()
-    logger.debug("Release push successful: ${response.body}")
+    logger.trace("Release push successful: {}", response.body)
+    if (body.approved) {
+      logger.info("${event.release.title} was approved by ${sonarr.appName}")
+    } else {
+      logger.info("${event.release.title} was rejected by ${sonarr.appName} due to ${body.rejections}")
+    }
   }
 
   private fun shouldNotify(sonarr: Properties.Sonarr, category: Category): Boolean =

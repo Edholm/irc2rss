@@ -34,7 +34,6 @@ class AnnounceListener(
     val msgWithoutColors = Colors.removeFormattingAndColors(event.message)
     logger.debug("Received message: $msgWithoutColors")
     val parts = splitAnnouncement(msgWithoutColors) ?: return
-    logger.debug("Title: ${parts.title} - ${parts.parsedCategory}")
 
     val link = constructDownloadLink(parts)
     val release = Release(
