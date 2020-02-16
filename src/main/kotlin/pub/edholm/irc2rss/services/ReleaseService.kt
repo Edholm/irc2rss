@@ -8,7 +8,7 @@ import pub.edholm.irc2rss.domain.ReleasesList
 
 @Service
 class ReleaseService(private val properties: Properties) {
-  private val releases: Map<Category, ReleasesList> = mutableMapOf()
+  private val releases: MutableMap<Category, ReleasesList> = mutableMapOf()
 
   fun getAll(): List<Release> {
     return releases.values.flatten()
@@ -30,6 +30,7 @@ class ReleaseService(private val properties: Properties) {
   fun add(release: Release) {
     val releasesList = releases.getOrDefault(release.category, ReleasesList(properties.category.maxSize))
     releasesList.add(release)
+    releases.putIfAbsent(release.category, releasesList)
   }
 
   private fun Iterable<Release>.sortedByDatePublished(): List<Release> {
