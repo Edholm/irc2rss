@@ -39,8 +39,10 @@ irc2rss:
   category:
     max-size: ${CATEGORY_MAX_SIZE:100}
     filter:
+      - TV_BOXSETS
       - TV_EPISODES_HD
       - MOVIES_4K
+      - MOVIES_BLURAY
   sonarr:
     - app-name: sonarr
       enabled: ${SONARR_NOTIFY_ENABLED:true}
@@ -48,10 +50,12 @@ irc2rss:
       api-key: ${SONARR_API_KEY:}
       categories:
         - TV_EPISODES_HD
+        - TV_BOXSETS
     - app-name: radarr
       enabled: ${RADARR_NOTIFY_ENABLED:true}
       url: ${RADARR_URL:https://luna.lan.elee.cloud/radarr}
       api-key: ${RADARR_API_KEY:}
       categories:
         - MOVIES_4K
+        - MOVIES_BLURAY
 
