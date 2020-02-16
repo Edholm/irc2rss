@@ -1,6 +1,5 @@
 package pub.edholm.irc2rss.irc
 
-import io.micrometer.core.instrument.MeterRegistry
 import org.pircbotx.Colors
 import org.pircbotx.hooks.ListenerAdapter
 import org.pircbotx.hooks.events.MessageEvent
@@ -13,13 +12,10 @@ import pub.edholm.irc2rss.domain.Category
 import pub.edholm.irc2rss.domain.CategoryConverter
 import pub.edholm.irc2rss.domain.Release
 import pub.edholm.irc2rss.notification.AnnounceEvent
-import pub.edholm.irc2rss.services.ReleaseService
 
 @Component
 class AnnounceListener(
-  private val releaseService: ReleaseService,
   private val properties: Properties,
-  private val meterRegistry: MeterRegistry,
   private val eventPublisher: ApplicationEventPublisher
 ) : ListenerAdapter() {
 
@@ -45,9 +41,6 @@ class AnnounceListener(
     )
 
     logger.debug("Parsed release: $release")
-    meterRegistry.counter("irc2rss.releases.added", "category", release.category.name).increment()
-
-    releaseService.add(release)
     eventPublisher.publishEvent(AnnounceEvent(release))
   }
 

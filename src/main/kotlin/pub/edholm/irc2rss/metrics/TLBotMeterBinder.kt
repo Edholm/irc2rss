@@ -3,11 +3,11 @@ package pub.edholm.irc2rss.metrics
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Tag
 import io.micrometer.core.instrument.binder.MeterBinder
+import org.springframework.stereotype.Component
 import pub.edholm.irc2rss.Properties
 import pub.edholm.irc2rss.TLBot
 
-//@Component
-// FIXME: circular deps
+@Component
 class TLBotMeterBinder(private val tlBot: TLBot, private val properties: Properties) :
   MeterBinder {
   override fun bindTo(registry: MeterRegistry) {
