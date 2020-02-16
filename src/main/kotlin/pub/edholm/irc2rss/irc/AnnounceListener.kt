@@ -8,11 +8,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
-import pub.edholm.irc2rss.AnnounceEvent
 import pub.edholm.irc2rss.Properties
 import pub.edholm.irc2rss.domain.Category
 import pub.edholm.irc2rss.domain.CategoryConverter
 import pub.edholm.irc2rss.domain.Release
+import pub.edholm.irc2rss.notification.AnnounceEvent
 import pub.edholm.irc2rss.services.ReleaseService
 
 @Component

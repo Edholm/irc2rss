@@ -7,7 +7,7 @@ import pub.edholm.irc2rss.Properties
 import pub.edholm.irc2rss.TLBot
 
 @Component
-class TorrentleechHealthIndicator(val tlBot: TLBot, val properties: Properties) : HealthIndicator {
+class TorrentleechHealthIndicator(private val tlBot: TLBot, private val properties: Properties) : HealthIndicator {
 
   override fun health(): Health {
     if (!tlBot.isConnected()) {

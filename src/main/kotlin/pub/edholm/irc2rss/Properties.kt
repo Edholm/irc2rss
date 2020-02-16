@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 data class Properties(
   val torrentleech: Torrentleech,
   val category: Category,
-  val hook: Hook
+  val sonarr: List<Sonarr>
 ) {
   data class Torrentleech(
     val enabled: Boolean,
@@ -26,10 +26,11 @@ data class Properties(
     val filter: MutableSet<pub.edholm.irc2rss.domain.Category>
   )
 
-  data class Hook(
-    var enabled: Boolean,
-    var url: String,
-    var expectedReturnCode: Int,
-    var onlyHookOnFiltered: Boolean
+  data class Sonarr(
+    val appName: String,
+    val enabled: Boolean,
+    val url: String,
+    val apiKey: String,
+    val categories: List<pub.edholm.irc2rss.domain.Category>
   )
 }

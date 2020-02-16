@@ -4,12 +4,6 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/irc2rss
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
 
 management:
   endpoint:
@@ -31,7 +25,7 @@ logging:
   level:
     org.pircbotx: WARN
     pub.edholm.irc2rss: ${LOG_LEVEL:DEBUG}
-
+    org.springframework.http.client.support: DEBUG
 irc2rss:
   torrentleech:
     enabled: ${TL_ENABLED:true}
@@ -46,8 +40,18 @@ irc2rss:
     max-size: ${CATEGORY_MAX_SIZE:100}
     filter:
       - TV_EPISODES_HD
-  hook:
-    enabled: ${HOOK_ENABLED:true}
-    url: ${HOOK_URL:http://localhost:1234/sb.forcesearch}
-    expected-return-code: ${HOOK_EXPECTED_RETURN_CODE:200}
-    only-hook-on-filtered: ${HOOK_ONLY_ON_FILTERED:true}
+      - MOVIES_4K
+  sonarr:
+    - app-name: sonarr
+      enabled: ${SONARR_NOTIFY_ENABLED:true}
+      url: ${SONARR_URL:https://luna.lan.elee.cloud/sonarr}
+      api-key: ${SONARR_API_KEY:}
+      categories:
+        - TV_EPISODES_HD
+    - app-name: radarr
+      enabled: ${RADARR_NOTIFY_ENABLED:true}
+      url: ${RADARR_URL:https://luna.lan.elee.cloud/radarr}
+      api-key: ${RADARR_API_KEY:}
+      categories:
+        - MOVIES_4K
+

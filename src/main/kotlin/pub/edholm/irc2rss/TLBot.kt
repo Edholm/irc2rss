@@ -1,43 +1,48 @@
 package pub.edholm.irc2rss
 
-import io.micrometer.core.instrument.MeterRegistry
-import io.micrometer.core.instrument.Tag
-import io.micrometer.core.instrument.binder.MeterBinder
 import org.pircbotx.PircBotX
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import pub.edholm.irc2rss.irc.AnnounceListener
+import javax.net.SocketFactory
+import javax.net.ssl.SSLSocketFactory
 
 @Component
-class TLBot(private val tlBot: PircBotX, private val properties: Properties) {
+class TLBot(announceListener: AnnounceListener, private val properties: Properties) {
+  val bot: PircBotX
 
-  fun isConnected(): Boolean = tlBot.isConnected
+  init {
+    val socketFactory = if (properties.torrentleech.ssl) SSLSocketFactory.getDefault() else SocketFactory.getDefault()
+    val config = org.pircbotx.Configuration.Builder()
+      .setName(properties.torrentleech.nick)
+      .setLogin(properties.torrentleech.nick)
+      .setRealName(properties.torrentleech.nick)
+      .setAutoNickChange(false)
+      .setAutoReconnect(true)
+      .setAutoReconnectDelay(13377)
+      .setAutoReconnectAttempts(100)
+      .addAutoJoinChannel(properties.torrentleech.autojoinChannel)
+      .addServer(properties.torrentleech.host, properties.torrentleech.port)
+      .setSocketFactory(socketFactory)
+      .addListener(announceListener)
+      .setNickservPassword(properties.torrentleech.nickservPwd)
+      .buildConfiguration()
 
-  fun isInChannel(channel: String): Boolean = tlBot.userChannelDao.containsChannel(channel)
+    bot = PircBotX(config)
+  }
+
+  fun isConnected(): Boolean = bot.isConnected
+
+  fun isInChannel(channel: String): Boolean = bot.userChannelDao.containsChannel(channel)
 
   fun isInDefaultChannel(): Boolean = isInChannel(properties.torrentleech.autojoinChannel)
 
-  fun isIdentified(): Boolean = tlBot.isNickservIdentified
+  fun isIdentified(): Boolean = bot.isNickservIdentified
 
-  fun channels(): List<String> = tlBot.userChannelDao.allChannels.map { it.name }
+  fun channels(): List<String> = bot.userChannelDao.allChannels.map { it.name }
 
   @Async
   fun start() {
-    tlBot.startBot()
-  }
-}
-
-private fun Boolean.toDouble(): Double = if (this) 1.0 else 0.0
-
-@Component
-class TLBotMeterBinder(private val tlBot: TLBot, private val properties: Properties) : MeterBinder {
-  override fun bindTo(registry: MeterRegistry) {
-    registry.gauge("irc2rss.torrentleech.connected", tlBot, { it.isConnected().toDouble() })
-    registry.gauge("irc2rss.torrentleech.identified", tlBot, { it.isIdentified().toDouble() })
-    registry.gauge(
-      "irc2rss.torrentleech.joined_default_channel",
-      listOf(Tag.of("channel", properties.torrentleech.autojoinChannel)),
-      tlBot,
-      { it.isInDefaultChannel().toDouble() }
-    )
+    bot.startBot()
   }
 }
