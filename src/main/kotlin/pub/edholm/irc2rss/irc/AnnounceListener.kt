@@ -23,7 +23,7 @@ class AnnounceListener(
 
   companion object {
     val announceRegex =
-      Regex("^New Torrent Announcement:\\s*<([^>]*)>\\s*Name:'(.*)' uploaded by '([^']*)'\\s*-\\s*https?://([^/]+/)torrent/(\\d+)")
+      Regex("^New Torrent Announcement:\\s*<([^>]*)>\\s*Name:'(.*)' uploaded by '([^']*)'(?: freeleech)?\\s*-\\s*https?://([^/]+/)torrent/(\\d+)")
   }
 
   override fun onMessage(event: MessageEvent) {
